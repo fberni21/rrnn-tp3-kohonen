@@ -118,4 +118,50 @@ La @fig:stars muestra la evolución del mapa de preservación de topología a lo
   caption: [Evolución del mapa de preservación de topología durante el entrenamiento de una red de Kohonen con datos uniformemente distribuidos entre tres estrellas.],
 ) <fig:stars>
 
+= Resolución del Problema del Vendedor Viajero con Red de Kohonen
+
+El problema del vendedor viajero (o _travelling salesman problem_, TSP) consiste, dada una lista de nodos (o ciudades) y las distancias entre ellos, en obtener el camino más corto que visita exactamente una vez cada nodo, regresando finalmente al la ciudad de origen. Este problema es notoriamente complejo de resolver cuando aumenta la cantidad $N$ de ciudades, pues pertenece a la clase computacional _NP-hard_. Por este motivo, se buscan formas de resolver más eficientemente el problema, aunque sea en forma aproximada.
+
+Una forma de hacerlo, es entrenando una red de Kohonen con neuronas dispuestas en forma de anillo, es decir, donde cada neurona tiene dos vecinas (derecha e izquierda), conectadas en línea, y donde la primera y la última neuronas también se consideran vecinas para cerrar el camino. Si se entrena a la red mostrándole las diferentes posiciones de las ciudades, las neuronas ajustarán sus pesos de manera tal que se alineen aproximadamente con sus ubicaciones. Si las condiciones del entrenamiento son adecuadas, la red convergerá a una solución aproximada relativamente buena al TSP, uniendo los nodos en un camino de longitud no demasiado larga.
+
+Se modificó entonces la red implementada en la sección anterior, de manera tal que permita el entrenamiento de redes unidimensionales en forma de anillo. En primer lugar, se entrenó con 20 ciudades, representadas por puntos elegidos al azar dentro del cuadrado $[-1, 1]^2$. Se entrenó durante 1000 épocas, utilizando una varianza inicial de 10 y una tasa de aprendizaje de 0.04. Debido a que los pesos de las neuronas no convergen exactamente a las posiciones de las ciudades, es conveniente elegir un número mayor de neuronas que de ciudades, por lo que se utilizaron 40 neuronas.
+
+La~@fig:20_map muestra la evolución del camino, superpuesto sobre las 20 ciudades. El camino está formado por las uniones entre los pesos de las neuronas vecinas. En un principio, los pesos son aleatorios por lo que el camino es completamente caótico. Tras 20 eṕocas, vemos como las neuronas ajustan sus pesos hasta formar un anillo, que continúa deformándose hasta converger, en la época 1000, a una solución muy adecuada del TSP. Si se mira adecuadamente, se verá que el camino no pasa exactamente sobre las ciudades, pero la solución es sorprendentemene adecuada dado que en ningún momento se le "indica" a la red que debe minimizar la longitud del camino. El autor no observa de forma sencilla un camino más corto que el obtenido por la red de Kohonen.
+
+#figure(
+  placement: auto,
+  image("img/ej2/20_map.svg", width: 100%),
+  caption: [Evolución del camino aprendido por la red para el TSP de 20 ciudades.],
+) <fig:20_map>
+
+En la~@fig:20_length se muestra la evolución del largo del camino formado por la red. Notar que luego de bajar abruptamente, comienza a aumentar levemente hasta converger. Este aumento se debe a que inicialmente el camino forma un anillo que no pasa por ninguna de las ciudades, lo que lo hace muy corto. Posteriormente, la ruta comienza a acercarse a los nodos, lo que requiere de un estiramiento del camino. Al final, la red converge a un camino de longitud 8.13.
+
+#figure(
+  placement: auto,
+  image("img/ej2/200_length.svg", width: 50%),
+  caption: [Evolución de la longitud del camino aprendido por la red para el TSP de 20 ciudades.],
+) <fig:20_length>
+
+El segundo experimento consistió en aumentar el tamaño del conjunto de ciudades a visitar a 200, un número considerablemente más difícil de atacar con algoritmos exactos. El número de neuronas utilizado fue de 400, nuevamente para mejorar el acercamiento del camino a las posiciones de las ciudades. La varianza inicial fue de 50, con una tasa de aprendizje de 0.05. Se entrenó nuevamente durante 1000 épocas.
+
+La~@fig:200_map muestra la evolución del camino aprendido por la red, superpuesto con las 200 ciudades para visitar. Luego del inicio aleatorio, vemos como los pesos se van "desenrollando" a lo largo de las épocas, y al final se obtiene un camino que pasa cerca de prácticamente todas las ciudades. Al igual que en el caso anterior, el camino no pasa exactamente por las posiciones de las ciudades, en algunos casos apenas acercándose ligeramente. Sin embargo, como solución aproximada del TSP el resultado es satisfactorio. Por otro lado, en este caso es más evidente que el algoritmo no alcanza una solución óptima. En particular, cerca del origen de coordenadas vemos que el camino se cruza sobre sí mismo, algo que intuitivamente parece ser mejorable.
+
+#figure(
+  placement: auto,
+  image("img/ej2/200_map.svg", width: 100%),
+  caption: [Evolución del camino aprendido por la red para el TSP de 200 ciudades.],
+) <fig:200_map>
+
+En la~@fig:200_length se muestra la evolución del largo del camino formado por la red. Como en el caso anterior, primero baja abruptamente, para luego aumentar ligeramente hasta la convergencia. El valor final alcanzado es de 21.1. Gracias al Teorema de Beardwood-Halton-Hammersley~@Beardwood_Halton_Hammersley_1959, se sabe que, en promedio y para $N$ grande, el camino cerrado más corto $L_N$ está dado por la expresión
+$ L_N approx beta sqrt(A N), $ <eq:bhh>
+con $A$ el área de la región (en este caso, $A=4$), y $beta$ una constante cuyo valor es aproximadamente 0.7, según estimaciones computacionales~@applegate2011traveling. Utilizando esta aproximación, vemos que el camino más corto en promedio será $L_(200) approx 19.8$, un valor cercano al obtenido por la red. Cabe notar que el resultado de~@eq:bhh es apenas una aproximación. Sin embargo, da un orden de magnitud para la solución óptima, y permite dar confianza en que el resultado obtenido por la red de Kohonen no es demasiado lejano al ideal.
+
+#figure(
+  placement: auto,
+  image("img/ej2/200_length.svg", width: 50%),
+  caption: [Evolución de la longitud del camino aprendido por la red para el TSP de 200 ciudades.],
+) <fig:200_length>
+
+#bibliography("refs.bib")
+
 // vim: lbr
