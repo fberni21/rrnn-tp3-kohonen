@@ -118,9 +118,9 @@ La @fig:stars muestra la evolución del mapa de preservación de topología a lo
   caption: [Evolución del mapa de preservación de topología durante el entrenamiento de una red de Kohonen con datos uniformemente distribuidos entre tres estrellas.],
 ) <fig:stars>
 
-= Resolución del Problema del Vendedor Viajero con Red de Kohonen
+= Resolución del Problema del Viajante de Comercio con Red de Kohonen
 
-El problema del vendedor viajero (o _travelling salesman problem_, TSP) consiste, dada una lista de nodos (o ciudades) y las distancias entre ellos, en obtener el camino más corto que visita exactamente una vez cada nodo, regresando finalmente al la ciudad de origen. Este problema es notoriamente complejo de resolver cuando aumenta la cantidad $N$ de ciudades, pues pertenece a la clase computacional _NP-hard_. Por este motivo, se buscan formas de resolver más eficientemente el problema, aunque sea en forma aproximada.
+El problema del viajante de comercio (o _travelling salesman problem_, TSP) consiste, dada una lista de nodos (o ciudades) y las distancias entre ellos, en obtener el camino más corto que visita exactamente una vez cada nodo, regresando finalmente al la ciudad de origen. Este problema es notoriamente complejo de resolver cuando aumenta la cantidad $N$ de ciudades, pues pertenece a la clase computacional _NP-hard_. Por este motivo, se buscan formas de resolver más eficientemente el problema, aunque sea en forma aproximada.
 
 Una forma de hacerlo, es entrenando una red de Kohonen con neuronas dispuestas en forma de anillo, es decir, donde cada neurona tiene dos vecinas (derecha e izquierda), conectadas en línea, y donde la primera y la última neuronas también se consideran vecinas para cerrar el camino. Si se entrena a la red mostrándole las diferentes posiciones de las ciudades, las neuronas ajustarán sus pesos de manera tal que se alineen aproximadamente con sus ubicaciones. Si las condiciones del entrenamiento son adecuadas, la red convergerá a una solución aproximada relativamente buena al TSP, uniendo los nodos en un camino de longitud no demasiado larga.
 
@@ -142,9 +142,9 @@ En la~@fig:20_length se muestra la evolución del largo del camino formado por l
   caption: [Evolución de la longitud del camino aprendido por la red para el TSP de 20 ciudades.],
 ) <fig:20_length>
 
-El segundo experimento consistió en aumentar el tamaño del conjunto de ciudades a visitar a 200, un número considerablemente más difícil de atacar con algoritmos exactos. El número de neuronas utilizado fue de 400, nuevamente para mejorar el acercamiento del camino a las posiciones de las ciudades. La varianza inicial fue de 50, con una tasa de aprendizje de 0.05. Se entrenó nuevamente durante 1000 épocas.
+El segundo experimento consistió en aumentar el tamaño del conjunto de ciudades a visitar a 200, un número considerablemente más difícil de atacar con algoritmos exactos. El número de neuronas utilizado fue de 400, nuevamente para mejorar el acercamiento del camino a las posiciones de las ciudades. La varianza inicial fue de 100, con una tasa de aprendizje de 0.3. Se entrenó nuevamente durante 1000 épocas.
 
-La~@fig:200_map muestra la evolución del camino aprendido por la red, superpuesto con las 200 ciudades para visitar. Luego del inicio aleatorio, vemos como los pesos se van "desenrollando" a lo largo de las épocas, y al final se obtiene un camino que pasa cerca de prácticamente todas las ciudades. Al igual que en el caso anterior, el camino no pasa exactamente por las posiciones de las ciudades, en algunos casos apenas acercándose ligeramente. Sin embargo, como solución aproximada del TSP el resultado es satisfactorio. Por otro lado, en este caso es más evidente que el algoritmo no alcanza una solución óptima. En particular, cerca del origen de coordenadas vemos que el camino se cruza sobre sí mismo, algo que intuitivamente parece ser mejorable.
+La~@fig:200_map muestra la evolución del camino aprendido por la red, superpuesto con las 200 ciudades para visitar. Luego del inicio aleatorio, vemos como los pesos se van "desenrollando" a lo largo de las épocas, y al final se obtiene un camino que pasa cerca de prácticamente todas las ciudades. Al igual que en el caso anterior, el camino no pasa exactamente por las posiciones de las ciudades, en algunos casos apenas acercándose ligeramente. Sin embargo, como solución aproximada del TSP el resultado es satisfactorio. Por otro lado, en este caso es más evidente que el algoritmo no alcanza una solución óptima. En particular, cerca $(0, 0.5)$ que el camino se cruza sobre sí mismo, algo que intuitivamente parece ser mejorable.
 
 #figure(
   placement: auto,
