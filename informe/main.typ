@@ -162,6 +162,23 @@ con $A$ el área de la región (en este caso, $A=4$), y $beta$ una constante cuy
   caption: [Evolución de la longitud del camino aprendido por la red para el TSP de 200 ciudades.],
 ) <fig:200_length>
 
+= Reducción de dimensionalidad y _clustering_ usando Red de Kohonen
+
+
+
+#figure(
+  placement: auto,
+  image("img/ej3/U.svg", width: 50%),
+  caption: [Matriz $U$ de una red de Kohonen entrenada sobre un conjunto de datos de 100 dimensiones.],
+) <fig:u_matrix>
+
+#figure(
+  placement: auto,
+  image("img/ej3/pca.svg", width: 50%),
+  caption: [Reducción de dimensionalidad con PCA.],
+) <fig:pca>
+
+
 #bibliography("refs.bib")
 
 // vim: lbr
