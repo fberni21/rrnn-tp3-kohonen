@@ -192,6 +192,6 @@ grid.cell([
 
 A modo de comparación, se realizó una reducción de dimensiones utilizando análisis de componentes principales (PCA). La @fig:pca muestra el conjunto de datos reducido a sus dos primeras componentes principales, las cuales explican el 52.9 % de la varianza total. Puede verse que aparenta haber cuatro grupos bien definidos. La primera componente principal permite distinguir entre tres, mientras que el agregado de la segunda componente distingue un cuarto grupo. Esto ayuda a confirmar el resultado obtenido por el algoritmo de Kohonen, que además lo hace sin explicitar en ningún momento el objetivo de encontrar direcciones de máxima varianza.
 
-#bibliography("refs.bib")
+#bibliography("refs.bib", style: "institute-of-electrical-and-electronics-engineers")
 
 // vim: lbr
